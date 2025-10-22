@@ -1,5 +1,5 @@
-// Initialize Pi SDK
-Pi.init({ version: "2.0" });
+// Initialize Pi SDK with sandbox mode enabled
+Pi.init({ version: "2.0", sandbox: true });
 
 let piUsername = "";
 
