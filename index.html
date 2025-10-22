@@ -1,10 +1,11 @@
-<<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TrustBuilder</title>
   <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script src="main.js" defer></script>
   <style>
     body {
       font-family: sans-serif;
@@ -24,6 +25,11 @@
       border: none;
       cursor: pointer;
     }
+    .wallet {
+      font-size: 0.9em;
+      color: gray;
+      word-break: break-word;
+    }
   </style>
 </head>
 <body>
@@ -34,53 +40,11 @@
     <button type="submit">Submit Review</button>
   </form>
 
-  <script>
-    Pi.init({ version: "2.0" });
+  <button onclick="triggerTierPayment('Gold', 1)">Unlock Gold Tier (1 Pi)</button>
 
-    let piUsername = "";
-
-    Pi.authenticate(
-      function(piUser) {
-        piUsername = piUser.username;
-        console.log("Authenticated:", piUsername);
-      },
-      function(error) {
-        console.error("Auth failed:", error);
-      }
-    );
-
-    document.getElementById("reviewForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
-      const score = parseInt(document.getElementById("score").value);
-      const review = document.getElementById("review").value;
-
-      if (!piUsername) {
-        alert("Please authenticate with Pi Network first.");
-        return;
-      }
-
-      const res = await fetch("https://abcxyz.supabase.co/rest/v1/reviews", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiY3h5eiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjk5OTk5OTk5LCJleHAiOjIwMTU1NzU5OTl9.abc123xyz456",
-          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiY3h5eiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjk5OTk5OTk5LCJleHAiOjIwMTU1NzU5OTl9.abc123xyz456"
-        },
-        body: JSON.stringify({
-          pi_username: piUsername,
-          score: score,
-          review: review
-        })
-      });
-
-      if (res.ok) {
-        alert("Review submitted!");
-        document.getElementById("reviewForm").reset();
-      } else {
-        alert("Error submitting review.");
-        console.error(await res.text());
-      }
-    });
-  </script>
+  <p class="wallet">
+    TrustBuilder Wallet:<br />
+    <code>GCFNBZD6V3VJMFHFAJGCLSTRWDQL3I7GB7BMCBZR6UAEOFDTNKZW4GQE</code>
+  </p>
 </body>
 </html>
