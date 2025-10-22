@@ -36,12 +36,12 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     try {
-      const res = await fetch("https://gcfnbzd6v3vjmfhfajgclstrwdqli7gb7bmcbzr6uaeofdtnkzw4gqe.supabase.co/rest/v1/reviews", {
+      const res = await fetch("https://abcxyz.supabase.co/rest/v1/reviews", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "apikey": "YOUR_REAL_SUPABASE_ANON_KEY",
-          "Authorization": "Bearer YOUR_REAL_SUPABASE_ANON_KEY"
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiY3h5eiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjk5OTk5OTk5LCJleHAiOjIwMTU1NzU5OTl9.abc123xyz456",
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFiY3h5eiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjk5OTk5OTk5LCJleHAiOjIwMTU1NzU5OTl9.abc123xyz456"
         },
         body: JSON.stringify(payload)
       });
