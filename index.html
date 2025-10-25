@@ -3,48 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>TrustBuilder</title>
-  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
-  <script src="script.js" defer></script>
+  <title>TrustBuilder Review</title>
   <style>
     body {
       font-family: sans-serif;
       padding: 20px;
-      max-width: 500px;
+      max-width: 600px;
       margin: auto;
     }
-    input, textarea, button {
-      width: 100%;
+    input, button {
+      display: block;
       margin: 10px 0;
-      padding: 10px;
-      font-size: 1em;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
     }
-    button {
-      background-color: #6c5ce7;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    .wallet {
+    footer {
+      text-align: center;
+      margin-top: 40px;
       font-size: 0.9em;
-      color: gray;
-      word-break: break-word;
     }
   </style>
 </head>
 <body>
-  <h2>TrustBuilder Review</h2>
-  <form id="reviewForm">
-    <input type="text" id="score" placeholder="Score (1–5)" required />
-    <textarea id="review" placeholder="Write your review..." required></textarea>
-    <button type="submit">Submit Review</button>
-  </form>
 
-  <button onclick="triggerTierPayment('Gold', 1)">Unlock Gold Tier (1 Pi)</button>
+  <h1>TrustBuilder Review</h1>
 
-  <p class="wallet">
-    TrustBuilder Wallet:<br />
-    <code>GCFNBZD6V3VJMFHFAJGCLSTRWDQL3I7GB7BMCBZR6UAEOFDTNKZW4GQE</code>
-  </p>
+  <button id="connectBtn" style="display:none;" onclick="connectWithPi()">Connect with Pi</button>
+  <pre id="wallet">Wallet: Not connected</pre>
+
+  <div id="reviewForm" style="display:none;">
+    <label for="rating">Rating (1–5):</label>
+    <input type="number" id="rating" min="1" max="5" />
+
+    <label for="comment">Comment:</label>
+    <input type="text" id="comment" />
+
+    <button onclick="submitReview()">Submit Review</button>
+  </div>
+
+  <footer>
+    <a href="privacy.html">Privacy Policy</a> |
+    <a href="terms.html">Terms of Service</a> |
+    <a href="mailto:trustbuilderapp@gmail.com">Contact</a>
+  </footer>
+
+  <script>
+    let isAuthenticated = false;
+
+    function connectWithPi() {
+      if (!window?.Pi) {
+        alert("Pi SDK not available. Please open in Pi Browser or launch from Developer Portal.");
+        return;
+      }
+
+      window.Pi.authenticate(["username", "payment"], function(auth) {
+        if (auth?.user?.username) {
+          document.getElementById("wallet").textContent = "Wallet: " + auth.user.username;
+          document.getElementById("reviewForm").style.display = "block";
+          isAuthenticated = true;
+        } else {
+          alert("Authentication failed.");
+        }
+      });
+    }
+
+    function submitReview() {
+      if (!isAuthenticated) {
+        alert("Please authenticate with Pi Network first.");
+        return;
+      }
+
+      const rating = document.getElementById("rating").value;
+      const comment = document.getElementById("comment").value;
+
+      // Placeholder submission logic
+      alert("Review submitted!\nRating: " + rating + "\nComment: " + comment);
+    }
+
+    window.onload = function() {
+      if (window?.Pi) {
+        connectWithPi(); // auto-connect if SDK is present
+      } else {
+        document.getElementById("connectBtn").style.display = "block";
+      }
+    };
+  </script>
+
 </body>
 </html>
