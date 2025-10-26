@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TrustBuilder Review</title>
+  <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+  <script>Pi.init({ version: "2.0" });</script>
   <style>
     body {
       font-family: sans-serif;
@@ -23,6 +25,10 @@
       margin-top: 40px;
       font-size: 0.9em;
     }
+    #wallet {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -30,7 +36,7 @@
   <h1>TrustBuilder Review</h1>
 
   <button id="connectBtn" style="display:none;" onclick="connectWithPi()">Connect with Pi</button>
-  <pre id="wallet">Wallet: Not connected</pre>
+  <div id="wallet">Wallet: Not connected</div>
 
   <div id="reviewForm" style="display:none;">
     <label for="rating">Rating (1–5):</label>
@@ -50,6 +56,7 @@
 
   <script>
     let isAuthenticated = false;
+    let walletUsername = "";
 
     function connectWithPi() {
       if (!window?.Pi) {
@@ -57,9 +64,10 @@
         return;
       }
 
-      window.Pi.authenticate(["username", "payment"], function(auth) {
+      Pi.authenticate(["username", "payments"], function(auth) {
         if (auth?.user?.username) {
-          document.getElementById("wallet").textContent = "Wallet: " + auth.user.username;
+          walletUsername = auth.user.username;
+          document.getElementById("wallet").textContent = "Wallet: " + walletUsername;
           document.getElementById("reviewForm").style.display = "block";
           isAuthenticated = true;
         } else {
@@ -78,12 +86,12 @@
       const comment = document.getElementById("comment").value;
 
       // Placeholder submission logic
-      alert("Review submitted!\nRating: " + rating + "\nComment: " + comment);
+      alert("Review submitted!\nWallet: " + walletUsername + "\nRating: " + rating + "\nComment: " + comment);
     }
 
     window.onload = function() {
       if (window?.Pi) {
-        connectWithPi(); // auto-connect if SDK is present
+        connectWithPi(); // auto-connect if SDK is injected
       } else {
         document.getElementById("connectBtn").style.display = "block";
       }
